@@ -258,7 +258,8 @@ public class AddressBookOperation {
 		}	
 	}
 	
-	public void searchPerson() {
+	public void searchPerson(String countFlag) {
+		
    	 	Scanner sc= new Scanner(System.in);
         System.out.print("\nEnter the city : ");
         String city = sc.nextLine();
@@ -280,13 +281,16 @@ public class AddressBookOperation {
 				personList.addAll(tempList);
 			}
 		}
+        if(countFlag.equals("count")) {
+        	
+        	System.out.print("\nNumber of persons in " + city + " : " + personList.size());
+        }else {
+        	for(PersonContact person : personList) {
+        		showContact(person);
+            }
+        }
         
-        for(PersonContact person : personList) {
-    		showContact(person);
-    	}
-        
-
-   }
+	}
 	public AddressBook getAddressBook(String addrName){
 		
 		for(String keyName : addrBookMap.keySet()) {
