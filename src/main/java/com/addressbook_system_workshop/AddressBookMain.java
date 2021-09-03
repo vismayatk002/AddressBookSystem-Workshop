@@ -13,7 +13,7 @@ public class AddressBookMain {
 	    	System.out.print("\n-------------");
 			System.out.print("\n### Address Book Menu ###");
 			System.out.print("\n-------------");
-	    	System.out.print("\n1.Add Contact \n2.Edit Contact \n3.Delete Contact \n4.Display Address Book");
+	    	System.out.print("\n1.Add Contact \n2.Edit Contact \n3.Delete Contact \n4.Display Address Book\n5.Search Person");
 	    	System.out.print("\n\nChoose your option : ");
 	    	int option = sc.nextInt();
 			switch(option) {
@@ -28,6 +28,9 @@ public class AddressBookMain {
 					break;
 				case 4 : 
 					operate.showAddrBook();
+					break;
+				case 5 : 
+					operate.searchPerson();
 					break;
 				default :
 					System.out.print("\nInvalid option");
