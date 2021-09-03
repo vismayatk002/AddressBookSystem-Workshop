@@ -41,16 +41,17 @@ public class PersonContact {
     public String getPhoneNo(){
         return phoneNo;
     }
-    public void setZip(int zip){
-        this.zip = zip;
-    }
-    public int getZip(){
-        return zip;
-    }
     public void setEmail(String email){
         this.email = email;
     }
     public String getEmail(){
         return email;
     }
+    public void setZip(int zip){
+        this.zip = zip;
+    }
+    public int getZip(){
+        return zip;
+    }
+    
 }

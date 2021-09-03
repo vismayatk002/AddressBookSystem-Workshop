@@ -23,11 +23,6 @@ public class AddressBookMain {
         String lastName = sc.nextLine(); 
         contact.setLastName(lastName);
 
-        System.out.print("\nEnter E-mail  : ");
-        String email = sc.nextLine();
-        validateEmail(email);
-        contact.setEmail(email);
-
         System.out.print("\nEnter Address  : ");  
         String address = sc.nextLine(); 
         contact.setAddress(address);
@@ -44,7 +39,12 @@ public class AddressBookMain {
         String phoneNo = sc.nextLine();
         validatePhoneNo(phoneNo);
         contact.setPhoneNo(phoneNo);
-
+        
+        System.out.print("\nEnter E-mail  : ");
+        String email = sc.nextLine();
+        validateEmail(email);
+        contact.setEmail(email);
+        
         System.out.print("\nEnter Zip  : ");  
         int zip = sc.nextInt();
         validateZip(zip);
@@ -105,7 +105,7 @@ public class AddressBookMain {
 		
 		for(AddressBook addrBookObj : addrBookList) {
 			
-			if(addrBookName.compareTo(addrBookObj.getAddrName()) == 0) {
+			if(addrBookName.equals(addrBookObj.getAddrName())) {
 				
 				addrBookObj.addContactToList(contact);
 				flag = 0;
@@ -118,17 +118,108 @@ public class AddressBookMain {
 			addrBookList.add(addrBook);
 		}
 	}
+	
+	public void editContact() {
+		
+		Scanner sc= new Scanner(System.in);
+		System.out.print("\nEnter the Address Book name : ");
+		String addrName = sc.nextLine();
+		
+		if(getAddressBook(addrName) == null ) {
+			System.out.print("\nCouldn't find the Address Book..");
+		}
+		else {
+			int flag = 1;
+			System.out.print("\nEnter the Person's First name : ");
+	        String editName = sc.nextLine();
+	        for (PersonContact personObj : getAddressBook(addrName).getPersonList()) {
+	            if(editName.equals(personObj.getFirstName())){
+	                System.out.print("\n--------------");
+	                System.out.print("\n***Update Menu***");
+	                System.out.print("\n--------------");
+	                System.out.print("\n1.Update Last Name \n2.Update Address \n3.Update City \n4.Update State \n5.Update Phone Number \n6.Update e-mail \n7.Update Zip");
+	                System.out.print("\n\nChoose your option for Edit : ");
+	                int editOption = sc.nextInt();
+	                editDetails(editOption,editName,personObj);
+	                flag = 0;
+	            }
+	        }
+	        if(flag == 1){
+                System.out.print("\nCouldn't find the contact...");
+            }
+            else{
+                System.out.print("\nYour contact updated !");
+            }
+		}
+	}
+	
+	public void editDetails(int editOption,String editName,PersonContact personObj) {
+		
+		Scanner sc= new Scanner(System.in);
+		switch(editOption) {
+			case 1 : 
+				System.out.print("\nEnter your new Last Name : ");
+				String firstName = sc.nextLine();
+	            personObj.setLastName(firstName);
+			break;
+			case 2 : 
+				System.out.print("\nEnter your new Address : ");
+				String address = sc.nextLine();
+	            personObj.setAddress(address);
+			break;
+			case 3 : 
+				System.out.print("\nEnter your new City : ");
+				String city = sc.nextLine();
+	            personObj.setCity(city);
+			break;
+			case 4 : 
+				System.out.print("\nEnter your new State : ");
+				String state = sc.nextLine();
+	            personObj.setState(state);
+			break;
+			case 5 :
+				System.out.print("\nEnter your new Phone Number : ");
+				String phoneNo = sc.nextLine();
+	            personObj.setPhoneNo(phoneNo);
+			break;
+			case 6 :
+				System.out.print("\nEnter your new E-mail : ");
+				String email = sc.nextLine();
+	            personObj.setEmail(email);
+			break;
+			case 7 :
+				System.out.print("\nEnter your new Zip : ");
+				int zip = sc.nextInt();
+	            personObj.setZip(zip);
+			break;
+			default :
+				System.out.print("\nInvalid option");
+		}	
+	}
+	
+	public AddressBook getAddressBook(String addrName){
+		
+		for(AddressBook addrBookObj : addrBookList) {
+			
+			if(addrName.equals(addrBookObj.getAddrName())) {
+				return addrBookObj;
+			}
+		}
+		return null;
+	}
+	
 	public void showAddrBook() {
 		
 		for(AddressBook addrBookObj : addrBookList) {
 			
-			System.out.print("\nAddress Book Name : " + addrBookObj.getAddrName());
+			System.out.print("\n\nAddress Book Name : " + addrBookObj.getAddrName());
 			for(PersonContact personObj : addrBookObj.getPersonList()) {
 				
 				showContact(personObj);
 			}
 		}
 	}
+
 	public void showContact(PersonContact contact){
 		
         System.out.print("\n-----------------");
@@ -146,18 +237,31 @@ public class AddressBookMain {
     	
     	AddressBookMain book = new AddressBookMain();
     	Scanner sc= new Scanner(System.in);
-    	System.out.print("\n-------------");
-		System.out.print("\n### Address Book Menu ###");
-		System.out.print("\n-------------");
-    	System.out.print("\n1.Add Contact");
-    	System.out.print("\n\nChoose your option : ");
-    	int option = sc.nextInt();
-		switch(option) {
-			case 1 : 
-				book.addContact();
-			break;
-			default :
-				System.out.print("\nInvalid option");
-    	}	
+    	int continueFlag;
+		do {
+	    	System.out.print("\n-------------");
+			System.out.print("\n### Address Book Menu ###");
+			System.out.print("\n-------------");
+	    	System.out.print("\n1.Add Contact \n2.Edit Contact");
+	    	System.out.print("\n\nChoose your option : ");
+	    	int option = sc.nextInt();
+			switch(option) {
+				case 1 : 
+					book.addContact();
+				break;
+				case 2 : 
+					book.editContact();
+					book.showAddrBook();
+				break;
+				default :
+					System.out.print("\nInvalid option");
+	    	}	
+			System.out.print("\n\nDo you want to continue? Press 1 : ");
+			continueFlag = sc.nextInt();
+		
+		}while(continueFlag == 1);
+		
+		System.out.print("\nThank you for using Address Book System !!");
+		sc.close();
     }
 }
