@@ -2,9 +2,8 @@ package com.addressbook_system_workshop;
 
 public class PersonContact {
 
-	String firstName,lastName,address,city,state,email;
+	String firstName,lastName,address,city,state,email,phoneNo;
 	int zip;
-	long phoneNo;
 	
 	public void setFirstName(String firstName){
         this.firstName = firstName;
@@ -36,10 +35,10 @@ public class PersonContact {
     public String getState(){
         return state;
     }
-    public void setPhoneNo(long phoneNo){
+    public void setPhoneNo(String phoneNo){
         this.phoneNo = phoneNo;
     }
-    public long getPhoneNo(){
+    public String getPhoneNo(){
         return phoneNo;
     }
     public void setZip(int zip){
