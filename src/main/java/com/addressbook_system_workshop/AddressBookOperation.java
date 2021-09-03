@@ -14,52 +14,78 @@ public class AddressBookOperation {
 		PersonContact contact =new PersonContact();
 		Scanner sc= new Scanner(System.in);
 		
-		System.out.print("\nEnter First Name  : ");  
-        String firstName = sc.nextLine();
-        validateName(firstName);
-        contact.setFirstName(firstName);
-
-        System.out.print("\nEnter Last Name  : ");  
-        String lastName = sc.nextLine(); 
-        contact.setLastName(lastName);
-
-        System.out.print("\nEnter Address  : ");  
-        String address = sc.nextLine(); 
-        contact.setAddress(address);
-
-        System.out.print("\nEnter City  : ");  
-        String city = sc.nextLine(); 
-        contact.setCity(city);
-
-        System.out.print("\nEnter State  : ");  
-        String state = sc.nextLine();
-        contact.setState(state);
-        
-        System.out.print("\nEnter Phone Number  : ");   
-        String phoneNo = sc.nextLine();
-        validatePhoneNo(phoneNo);
-        contact.setPhoneNo(phoneNo);
-        
-        System.out.print("\nEnter E-mail  : ");
-        String email = sc.nextLine();
-        validateEmail(email);
-        contact.setEmail(email);
-        
-        System.out.print("\nEnter Zip  : ");  
-        int zip = sc.nextInt();
-        validateZip(zip);
-        contact.setZip(zip);
-        
-        showContact(contact);
-        
-        sc.nextLine();
-        System.out.print("\n\nIn which Address Book you want to add your contact? ");
+		System.out.print("\nIn which Address Book you want to add your contact? ");
         String addrBookName = sc.nextLine(); 
         
-        addInAddrBook(addrBookName,contact);
-        System.out.print("\n\nYour contact Added !");
+		System.out.print("\nEnter First Name  : ");  
+        String firstName = sc.nextLine();
+        if(!isPersonExist(addrBookName,firstName)) {
+        	
+	        validateName(firstName);
+	        contact.setFirstName(firstName);
+	        
+	        System.out.print("\nEnter Last Name  : ");  
+	        String lastName = sc.nextLine(); 
+	        contact.setLastName(lastName);
+	
+	        System.out.print("\nEnter Address  : ");  
+	        String address = sc.nextLine(); 
+	        contact.setAddress(address);
+	
+	        System.out.print("\nEnter City  : ");  
+	        String city = sc.nextLine(); 
+	        contact.setCity(city);
+	
+	        System.out.print("\nEnter State  : ");  
+	        String state = sc.nextLine();
+	        contact.setState(state);
+	        
+	        System.out.print("\nEnter Phone Number  : ");   
+	        String phoneNo = sc.nextLine();
+	        validatePhoneNo(phoneNo);
+	        contact.setPhoneNo(phoneNo);
+	        
+	        System.out.print("\nEnter E-mail  : ");
+	        String email = sc.nextLine();
+	        validateEmail(email);
+	        contact.setEmail(email);
+	        
+	        System.out.print("\nEnter Zip  : ");  
+	        int zip = sc.nextInt();
+	        validateZip(zip);
+	        contact.setZip(zip);
+	        
+	        showContact(contact);
+	        
+	        sc.nextLine();
+	        
+	        addInAddrBook(addrBookName,contact);
+	        System.out.print("\n\nYour contact Added !");
+        }
+        else {
+        	System.out.print("\nContact already exist !");
+        }
 	}
 	
+	public boolean isPersonExist(String addrBookName,String searchName) {
+		
+		AddressBook tempAddrObj = getAddressBook(addrBookName);
+		if(tempAddrObj == null) {
+			return false;
+		}
+		else {
+			PersonContact personObj = tempAddrObj.getPersonList().stream()
+					  .filter(keyObj -> searchName.equals(keyObj.getFirstName()))
+					  .findAny()
+					  .orElse(null);
+			if(personObj == null) {
+				return false;
+			}
+			else {
+				return true;
+			}
+		}
+	}
 	public void validateName(String Name) {
 		
 		if(Character.isUpperCase(Name.charAt(0))) {
