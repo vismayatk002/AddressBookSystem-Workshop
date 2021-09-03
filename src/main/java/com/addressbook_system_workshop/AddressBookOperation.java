@@ -57,7 +57,6 @@ public class AddressBookOperation {
         String addrBookName = sc.nextLine(); 
         
         addInAddrBook(addrBookName,contact);
-        showAddrBook();
         System.out.print("\n\nYour contact Added !");
 	}
 	

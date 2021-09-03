@@ -6,27 +6,29 @@ public class AddressBookMain {
 
     public static void main( String[] args ){
     	
-    	AddressBookOperation book = new AddressBookOperation();
+    	AddressBookOperation operate = new AddressBookOperation();
     	Scanner sc= new Scanner(System.in);
     	int continueFlag;
 		do {
 	    	System.out.print("\n-------------");
 			System.out.print("\n### Address Book Menu ###");
 			System.out.print("\n-------------");
-	    	System.out.print("\n1.Add Contact \n2.Edit Contact \n3.Delete Contact");
+	    	System.out.print("\n1.Add Contact \n2.Edit Contact \n3.Delete Contact \n4.Display Address Book");
 	    	System.out.print("\n\nChoose your option : ");
 	    	int option = sc.nextInt();
 			switch(option) {
 				case 1 : 
-					book.addContact();
-				break;
+					operate.addContact();
+					break;
 				case 2 : 
-					book.editContact();
-					book.showAddrBook();
-				break;
+					operate.editContact();
+					break;
 				case 3 : 
-					book.deleteContact();
-				break;
+					operate.deleteContact();
+					break;
+				case 4 : 
+					operate.showAddrBook();
+					break;
 				default :
 					System.out.print("\nInvalid option");
 	    	}	
