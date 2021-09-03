@@ -29,32 +29,32 @@ public class AddressBookOperation {
 	        String lastName = sc.nextLine(); 
 	        contact.setLastName(lastName);
 	
-//	        System.out.print("\nEnter Address  : ");  
-//	        String address = sc.nextLine(); 
-//	        contact.setAddress(address);
+	        System.out.print("\nEnter Address  : ");  
+	        String address = sc.nextLine(); 
+	        contact.setAddress(address);
 	
 	        System.out.print("\nEnter City  : ");  
 	        String city = sc.nextLine(); 
 	        contact.setCity(city);
 	
-//	        System.out.print("\nEnter State  : ");  
-//	        String state = sc.nextLine();
-//	        contact.setState(state);
-//	        
-//	        System.out.print("\nEnter Phone Number  : ");   
-//	        String phoneNo = sc.nextLine();
-//	        validatePhoneNo(phoneNo);
-//	        contact.setPhoneNo(phoneNo);
-//	        
-//	        System.out.print("\nEnter E-mail  : ");
-//	        String email = sc.nextLine();
-//	        validateEmail(email);
-//	        contact.setEmail(email);
-//	        
-//	        System.out.print("\nEnter Zip  : ");  
-//	        int zip = sc.nextInt();
-//	        validateZip(zip);
-//	        contact.setZip(zip);
+	        System.out.print("\nEnter State  : ");  
+	        String state = sc.nextLine();
+	        contact.setState(state);
+	        
+	        System.out.print("\nEnter Phone Number  : ");   
+	        String phoneNo = sc.nextLine();
+	        validatePhoneNo(phoneNo);
+	        contact.setPhoneNo(phoneNo);
+	        
+	        System.out.print("\nEnter E-mail  : ");
+	        String email = sc.nextLine();
+	        validateEmail(email);
+	        contact.setEmail(email);
+	        
+	        System.out.print("\nEnter Zip  : ");  
+	        int zip = sc.nextInt();
+	        validateZip(zip);
+	        contact.setZip(zip);
 	        
 	        showContact(contact);
 	        
@@ -263,17 +263,28 @@ public class AddressBookOperation {
         System.out.print("\nEnter the city : ");
         String city = sc.nextLine();
         
-        List<List<PersonContact>> persons = addrBookMap.entrySet() 
-		         .stream() 
-		         .filter(HashMap -> HashMap.getValue().getPersonList().stream().anyMatch(personObj -> city.equals(personObj.getCity())))
-		         .map(HashMap -> HashMap.getValue().getPersonList())
-		         .collect(Collectors.toList());
+        List<PersonContact> personList = null;
         
-        for(List<PersonContact> person : persons) {
-        	for(PersonContact p : person) {
-        		showContact(p);
-        	}
-        }
+        for(String keyName : addrBookMap.keySet()) {
+			
+			AddressBook addrBookObj = addrBookMap.get(keyName);
+			
+			if(personList == null) {
+				personList = addrBookObj.getPersonList().stream()
+				.filter(person -> city.equals(person.getCity()))
+				.collect(Collectors.toList());
+			}else {
+				List<PersonContact> tempList = addrBookObj.getPersonList().stream()
+				.filter(person -> city.equals(person.getCity()))
+				.collect(Collectors.toList());
+				personList.addAll(tempList);
+			}
+		}
+        
+        for(PersonContact person : personList) {
+    		showContact(person);
+    	}
+        
 
    }
 	public AddressBook getAddressBook(String addrName){
