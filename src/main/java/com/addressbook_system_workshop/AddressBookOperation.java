@@ -1,13 +1,13 @@
 package com.addressbook_system_workshop;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
 public class AddressBookOperation {
 
-	List<AddressBook> addrBookList = new ArrayList<>();
+	HashMap<String,AddressBook> addrBookMap = new HashMap<>();
 	
 	public void addContact() {
 		
@@ -102,9 +102,11 @@ public class AddressBookOperation {
 		
 		int flag = 1;
 		
-		for(AddressBook addrBookObj : addrBookList) {
+		for(String keyName : addrBookMap.keySet()) {
 			
-			if(addrBookName.equals(addrBookObj.getAddrName())) {
+			AddressBook addrBookObj = addrBookMap.get(keyName);
+			
+			if(addrBookName.equals(addrBookObj.getPersonList())) {
 				
 				addrBookObj.addContactToList(contact);
 				flag = 0;
@@ -114,7 +116,7 @@ public class AddressBookOperation {
 			
 			AddressBook addrBook = new AddressBook(addrBookName);
 			addrBook.addContactToList(contact);
-			addrBookList.add(addrBook);
+			addrBookMap.put(addrBookName,addrBook);
 		}
 	}
 	
@@ -231,7 +233,9 @@ public class AddressBookOperation {
 	
 	public AddressBook getAddressBook(String addrName){
 		
-		for(AddressBook addrBookObj : addrBookList) {
+		for(String keyName : addrBookMap.keySet()) {
+			
+			AddressBook addrBookObj = addrBookMap.get(keyName);
 			
 			if(addrName.equals(addrBookObj.getAddrName())) {
 				return addrBookObj;
@@ -242,9 +246,11 @@ public class AddressBookOperation {
 	
 	public void showAddrBook() {
 		
-		for(AddressBook addrBookObj : addrBookList) {
+		for(String keyName : addrBookMap.keySet()) {
 			
-			System.out.print("\n\nAddress Book Name : " + addrBookObj.getAddrName());
+			AddressBook addrBookObj = addrBookMap.get(keyName);
+			
+			System.out.print("\nAddress Book Name : " + addrBookObj.getAddrName());
 			for(PersonContact personObj : addrBookObj.getPersonList()) {
 				
 				showContact(personObj);
