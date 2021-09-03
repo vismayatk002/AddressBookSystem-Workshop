@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+import java.util.Comparator;
 
 public class AddressBookOperation {
 
@@ -289,8 +290,25 @@ public class AddressBookOperation {
         		showContact(person);
             }
         }
-        
 	}
+	public void sortByName() {
+	  
+		Scanner sc= new Scanner(System.in);
+        System.out.print("\nEnter the Address Book name to sort : ");
+        String addrBookName = sc.nextLine();
+        AddressBook addrBookObj =  getAddressBook(addrBookName);        
+         
+        List<PersonContact> sortedList = addrBookObj.getPersonList()
+    			.stream()
+    			.sorted(Comparator.comparing(PersonContact::getFirstName))
+                .collect(Collectors.toList());  
+        
+        for(PersonContact personObj : sortedList) {
+			
+			showContact(personObj);
+		}
+	}
+	
 	public AddressBook getAddressBook(String addrName){
 		
 		for(String keyName : addrBookMap.keySet()) {
