@@ -1,6 +1,7 @@
 package com.addressbook_system_workshop;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -17,7 +18,7 @@ public class DatabaseOperations {
 		System.out.print("\n-------------------------------");
         System.out.print("\n### DataBase Operation Menu ###");
         System.out.print("\n-------------------------------");
-        System.out.print("\n1.Retrieve all contacts \n2.Update Contact \n3.Retrieve contacts in a  date periods \n4.Retrieve contact's count");
+        System.out.print("\n1.Retrieve all contacts \n2.Update Contact \n3.Retrieve contacts in a  date periods \n4.Retrieve contact's count \n5.Add new contact");
         System.out.print("\n\nChoose your option for DataBase Operation : ");
         int dbOption = sc.nextInt();
         
@@ -33,6 +34,9 @@ public class DatabaseOperations {
 				break;
 			case 4 : 
 				getNoOfContactsByState();
+				break;
+			case 5 : 
+				insertContact();
 				break;
 			default :
 				System.out.print("\nInvalid option");
@@ -113,6 +117,50 @@ public class DatabaseOperations {
 		}
 	}
 	
+	public void insertContact() throws SQLException {
+		
+		Connection con = getSqlConnection();
+		try {
+			if(con != null) {
+				con.setAutoCommit(false);
+				
+				String insertQuery = "INSERT INTO addressBook (addressBookName) VALUES (?)";
+				PreparedStatement insertStatement = con.prepareStatement(insertQuery);
+				insertStatement.setString(1, "Other");
+				int rowInserted = insertStatement.executeUpdate();
+				
+				
+				insertQuery = "INSERT INTO person (addressBookId,firstName,lastName,address,city,state,phoneNo,email,zip,date) VALUES (?,?,?,?,?,?,?,?,?,?)";
+				insertStatement = con.prepareStatement(insertQuery);
+				insertStatement.setInt(1, 4);
+				insertStatement.setString(2, "Ranpreeth");
+				insertStatement.setString(3, "PR");
+				insertStatement.setString(4, "Thalassery");
+				insertStatement.setString(5, "Kannur");
+				insertStatement.setString(6, "Kerala");
+				insertStatement.setString(7, "919095123456");
+				insertStatement.setString(8, "ranpreethpr@gmail.com");
+				insertStatement.setInt(9, 909876);
+				insertStatement.setDate(10, new Date(2021-05-25));
+				rowInserted = insertStatement.executeUpdate();
+				
+				con.commit();
+				if(rowInserted > 0){
+					System.out.println("Contact Inserted");
+				}
+				con.setAutoCommit(true);
+			}
+			
+		}catch(SQLException sqlException) {
+			System.out.println("Insertion Rollbacked");
+			con.rollback();
+
+	    }finally {
+	    	if(con != null) {
+				con.close();
+	    	}
+	    }
+	}
 	public void  displayResultSet(ResultSet resultSet) throws SQLException {
 		
 		System.out.println("\nContact retrieved..");
