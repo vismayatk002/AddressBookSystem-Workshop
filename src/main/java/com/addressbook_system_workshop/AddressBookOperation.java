@@ -165,9 +165,9 @@ public class AddressBookOperation {
 	        String editName = sc.nextLine();
 	        for (PersonContact personObj : getAddressBook(addrName).getPersonList()) {
 	            if(editName.equals(personObj.getFirstName())){
-	                System.out.print("\n--------------");
+	                System.out.print("\n-------------------");
 	                System.out.print("\n***Update Menu***");
-	                System.out.print("\n--------------");
+	                System.out.print("\n-------------------");
 	                System.out.print("\n1.Update Last Name \n2.Update Address \n3.Update City \n4.Update State \n5.Update Phone Number \n6.Update e-mail \n7.Update Zip");
 	                System.out.print("\n\nChoose your option for Edit : ");
 	                int editOption = sc.nextInt();
@@ -192,37 +192,37 @@ public class AddressBookOperation {
 				System.out.print("\nEnter your new Last Name : ");
 				String firstName = sc.nextLine();
 	            personObj.setLastName(firstName);
-			break;
+	            break;
 			case 2 : 
 				System.out.print("\nEnter your new Address : ");
 				String address = sc.nextLine();
 	            personObj.setAddress(address);
-			break;
+	            break;
 			case 3 : 
 				System.out.print("\nEnter your new City : ");
 				String city = sc.nextLine();
 	            personObj.setCity(city);
-			break;
+	            break;
 			case 4 : 
 				System.out.print("\nEnter your new State : ");
 				String state = sc.nextLine();
 	            personObj.setState(state);
-			break;
+	            break;
 			case 5 :
 				System.out.print("\nEnter your new Phone Number : ");
 				String phoneNo = sc.nextLine();
 	            personObj.setPhoneNo(phoneNo);
-			break;
+	            break;
 			case 6 :
 				System.out.print("\nEnter your new E-mail : ");
 				String email = sc.nextLine();
 	            personObj.setEmail(email);
-			break;
+	            break;
 			case 7 :
 				System.out.print("\nEnter your new Zip : ");
 				int zip = sc.nextInt();
 	            personObj.setZip(zip);
-			break;
+	            break;
 			default :
 				System.out.print("\nInvalid option");
 		}	
@@ -301,9 +301,9 @@ public class AddressBookOperation {
         System.out.print("\nEnter the Address Book name to sort : ");
         String addrBookName = sc.nextLine();
         
-        System.out.print("\n--------------");
+        System.out.print("\n---------------");
         System.out.print("\n***Sort Menu***");
-        System.out.print("\n--------------");
+        System.out.print("\n---------------");
         System.out.print("\n1.Sort by First Name \n2.Sort by City \n3.Sort by State \n4.Sort by Zip");
         System.out.print("\n\nChoose your option for Sort : ");
         int sortOption = sc.nextInt();
