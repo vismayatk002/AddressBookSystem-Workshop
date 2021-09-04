@@ -16,7 +16,7 @@ public class AddressBookMain {
 			System.out.print("\n### Address Book Menu ###");
 			System.out.print("\n---------------------------");
 	    	System.out.print("\n1.Add Contact \n2.Edit Contact \n3.Delete Contact \n4.Display Address Book\n5.Search Person");
-	    	System.out.print("\n6.Display Person Count\n7.Sort Contact \n8.File Operation");
+	    	System.out.print("\n6.Display Person Count\n7.Sort Contact \n8.File Operation \n9.DataBase Operations");
 	    	System.out.print("\n\nChoose your option : ");
 	    	int option = sc.nextInt();
 			switch(option) {
@@ -45,10 +45,14 @@ public class AddressBookMain {
 					FileOperation file = new FileOperation(operate.addrBookMap);
 					file.showMenu();
 					break;
+				case 9 : 
+					DatabaseOperations db = new DatabaseOperations();
+					db.showMenu();
+					break;
 				default :
 					System.out.print("\nInvalid option");
 	    	}	
-			System.out.print("\n\nDo you want to continue? Press 1 : ");
+			System.out.print("\nDo you want to continue? Press 1 : ");
 			continueFlag = sc.nextInt();
 		
 		}while(continueFlag == 1);
