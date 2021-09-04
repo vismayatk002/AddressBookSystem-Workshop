@@ -17,14 +17,14 @@ public class DatabaseOperations {
 		System.out.print("\n-------------------------------");
         System.out.print("\n### DataBase Operation Menu ###");
         System.out.print("\n-------------------------------");
-        System.out.print("\n1.Retrieve all contacts \n2.Update Contact");
+        System.out.print("\n1.Retrieve all contacts \n2.Update Contact \n3.Retrieve contacts in a paraticular date periods");
         System.out.print("\n\nChoose your option for DataBase Operation : ");
         int dbOption = sc.nextInt();
         
         switch(dbOption) {
 			case 1 : 
 				try {
-					retrieveAllData();
+					retrieveAllContacts();
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}
@@ -32,6 +32,13 @@ public class DatabaseOperations {
 			case 2 : 
 				try {
 					updateDataByName();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+				break;
+			case 3 : 
+				try {
+					getContactsInDatePeriod();
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}
@@ -55,7 +62,7 @@ public class DatabaseOperations {
 		return con;
 	}
 	
-	public void retrieveAllData() throws SQLException {
+	public void retrieveAllContacts() throws SQLException {
 		
 		Connection con = getSqlConnection();
 		//Retrieve all the data
@@ -63,24 +70,7 @@ public class DatabaseOperations {
 		   String retrieveQuery = "SELECT * FROM addressBook JOIN person ON addressBook.addressBookId = person.addressBookId";
 		   Statement statement = (Statement) con.createStatement();
 		   ResultSet resultSet = statement.executeQuery(retrieveQuery);
-		   System.out.println("\nContact retrieved..");
-		   while(resultSet.next()) {
-			   
-			   int addressBookId = resultSet.getInt("addressBookId");
-			   String addressBookName = resultSet.getString("addressBookName");
-			   int personId = resultSet.getInt("personId");
-			   String firstName = resultSet.getString("firstName");
-			   String lastName = resultSet.getString("lastName");
-			   String address = resultSet.getString("address");
-			   String city = resultSet.getString("city");
-			   String state = resultSet.getString("state");
-			   String phoneNo = resultSet.getString("phoneNo");
-			   String email = resultSet.getString("email");
-			   int zip = resultSet.getInt("zip");
-			   
-			   String rowData = String.format("\nAddressBook Id : %d \nAddressBook Name : %s \nPerson Id : %d \nFirst Name : %s  \nLast Name : %s \nAddress : %s \nCity : %s \nState : %s \nPhone Number : %s \nE-mail : %s \nZip : %d", addressBookId, addressBookName, personId, firstName,lastName,address,city,state,phoneNo,email,zip);
-			   System.out.println(rowData + " \n ");
-		   }
+		   displayResultSet(resultSet);
 		}
 	}
 	
@@ -99,6 +89,40 @@ public class DatabaseOperations {
 			if(rowUpdated > 0){
 			   System.out.println("Contact Updated");
 		   }
+		}
+	}
+	
+	public void getContactsInDatePeriod() throws SQLException {
+		
+		Connection con = getSqlConnection();
+		if(con != null) {
+			   String retrieveQuery = "SELECT * FROM person JOIN addressBook ON addressBook.addressBookId = person.addressBookId WHERE date BETWEEN CAST('2021-07-01' AS DATE) AND DATE(NOW());";
+			   Statement statement = (Statement) con.createStatement();
+			   ResultSet resultSet = statement.executeQuery(retrieveQuery);
+			   displayResultSet(resultSet);
+		}
+	}
+	
+	public void  displayResultSet(ResultSet resultSet) throws SQLException {
+		
+		System.out.println("\nContact retrieved..");
+		while(resultSet.next()) {
+			   
+		   int addressBookId = resultSet.getInt("addressBookId");
+		   String addressBookName = resultSet.getString("addressBookName");
+		   int personId = resultSet.getInt("personId");
+		   String firstName = resultSet.getString("firstName");
+		   String lastName = resultSet.getString("lastName");
+		   String address = resultSet.getString("address");
+		   String city = resultSet.getString("city");
+		   String state = resultSet.getString("state");
+		   String phoneNo = resultSet.getString("phoneNo");
+		   String email = resultSet.getString("email");
+		   int zip = resultSet.getInt("zip");
+		   String date = resultSet.getDate("date").toString();
+		   
+		   String rowData = String.format("\nAddressBook Id : %d \nAddressBook Name : %s \nPerson Id : %d \nFirst Name : %s  \nLast Name : %s \nAddress : %s \nCity : %s \nState : %s \nPhone Number : %s \nE-mail : %s \nZip : %d \nDate : %s", addressBookId, addressBookName, personId, firstName,lastName,address,city,state,phoneNo,email,zip,date);
+		   System.out.println(rowData + " \n ");
 		}
 	}
 }
