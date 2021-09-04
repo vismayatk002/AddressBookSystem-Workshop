@@ -88,6 +88,7 @@ public class AddressBookOperation {
 			}
 		}
 	}
+	
 	public void validateName(String Name) {
 		
 		if(Character.isUpperCase(Name.charAt(0))) {
@@ -101,6 +102,7 @@ public class AddressBookOperation {
 			System.out.println( "first letter must be caps");
 		}
 	}
+	
 	public void validateEmail(String email) {
 		
 		String regex = "^(.+)@gmail(.+)$"; 
@@ -169,7 +171,7 @@ public class AddressBookOperation {
 	                System.out.print("\n1.Update Last Name \n2.Update Address \n3.Update City \n4.Update State \n5.Update Phone Number \n6.Update e-mail \n7.Update Zip");
 	                System.out.print("\n\nChoose your option for Edit : ");
 	                int editOption = sc.nextInt();
-	                editContactDetails(editOption,editName,personObj);
+	                updateContactDetails(editOption,editName,personObj);
 	                flag = 0;
 	            }
 	        }
@@ -181,41 +183,8 @@ public class AddressBookOperation {
             }
 		}
 	}
-	
-	public void deleteContact() {
-		
-		Scanner sc= new Scanner(System.in);
-		System.out.print("\nEnter the Address Book name : ");
-		String addrName = sc.nextLine();
-		
-		if(getAddressBook(addrName) == null ) {
-			System.out.print("\nCouldn't find the Address Book..");
-		}
-		else {
-			int flag = 1;
-			System.out.print("\nEnter the Person's First name : ");
-	        String delName = sc.nextLine();
-	        AddressBook tempAddrObj = getAddressBook(addrName);
-	        List<PersonContact> tempPerList = tempAddrObj.getPersonList();
-	        
-	        PersonContact ContactToDelete = null;
-	        
-			for (PersonContact personObj : tempPerList) {
-	            if(delName.equals(personObj.getFirstName())){
-	            	ContactToDelete = personObj;
-	                flag = 0;
-	            }
-	        }
-	        if(flag == 1){
-	            System.out.print("\ncouldn't find the contact..");
-	        } 
-	        else{
-	        	tempPerList.remove(ContactToDelete);
-	            System.out.print("\nYour contact deleted..");
-	        }  
-		}
-	}
-	public void editContactDetails(int editOption,String editName,PersonContact personObj) {
+
+	public void updateContactDetails(int editOption,String editName,PersonContact personObj) {
 		
 		Scanner sc= new Scanner(System.in);
 		switch(editOption) {
@@ -259,6 +228,40 @@ public class AddressBookOperation {
 		}	
 	}
 	
+	public void deleteContact() {
+		
+		Scanner sc= new Scanner(System.in);
+		System.out.print("\nEnter the Address Book name : ");
+		String addrName = sc.nextLine();
+		
+		if(getAddressBook(addrName) == null ) {
+			System.out.print("\nCouldn't find the Address Book..");
+		}
+		else {
+			int flag = 1;
+			System.out.print("\nEnter the Person's First name : ");
+	        String delName = sc.nextLine();
+	        AddressBook tempAddrObj = getAddressBook(addrName);
+	        List<PersonContact> tempPerList = tempAddrObj.getPersonList();
+	        
+	        PersonContact ContactToDelete = null;
+	        
+			for (PersonContact personObj : tempPerList) {
+	            if(delName.equals(personObj.getFirstName())){
+	            	ContactToDelete = personObj;
+	                flag = 0;
+	            }
+	        }
+	        if(flag == 1){
+	            System.out.print("\ncouldn't find the contact..");
+	        } 
+	        else{
+	        	tempPerList.remove(ContactToDelete);
+	            System.out.print("\nYour contact deleted..");
+	        }  
+		}
+	}
+	
 	public void searchPerson(String countFlag) {
 		
    	 	Scanner sc= new Scanner(System.in);
@@ -291,20 +294,48 @@ public class AddressBookOperation {
             }
         }
 	}
+	
 	public void sortByName() {
 	  
 		Scanner sc= new Scanner(System.in);
         System.out.print("\nEnter the Address Book name to sort : ");
         String addrBookName = sc.nextLine();
-        AddressBook addrBookObj =  getAddressBook(addrBookName);        
-         
+        
+        System.out.print("\n--------------");
+        System.out.print("\n***Sort Menu***");
+        System.out.print("\n--------------");
+        System.out.print("\n1.Sort by First Name \n2.Sort by City \n3.Sort by State \n4.Sort by Zip");
+        System.out.print("\n\nChoose your option for Sort : ");
+        int sortOption = sc.nextInt();
+        
+        Comparator<PersonContact> compareByField;
+        
+        switch(sortOption) {
+			case 1 : 
+				compareByField = Comparator.comparing(PersonContact::getFirstName);
+	            break;
+			case 2 : 
+				compareByField = Comparator.comparing(PersonContact::getCity);
+	            break;
+			case 3 : 
+				compareByField = Comparator.comparing(PersonContact::getState);
+	            break;
+			case 4 : 
+				compareByField = Comparator.comparing(PersonContact::getZip);
+	            break;
+			default :
+				System.out.print("\nInvalid option selected , Sorted based on First Name");
+				compareByField = Comparator.comparing(PersonContact::getFirstName);
+        }	
+        
+        AddressBook addrBookObj =  getAddressBook(addrBookName);  
+        
         List<PersonContact> sortedList = addrBookObj.getPersonList()
     			.stream()
-    			.sorted(Comparator.comparing(PersonContact::getFirstName))
+    			.sorted(compareByField)
                 .collect(Collectors.toList());  
         
         for(PersonContact personObj : sortedList) {
-			
 			showContact(personObj);
 		}
 	}
