@@ -2,6 +2,7 @@ package com.addressbook_system_workshop;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.Writer;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -9,6 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 
+import com.google.gson.Gson;
 import com.opencsv.CSVWriter;
 
 public class FileOperation {
@@ -24,10 +26,10 @@ public class FileOperation {
 	public void showMenu() {
 		
 		Scanner sc= new Scanner(System.in);
-		System.out.print("\n--------------------------");
-        System.out.print("\n***File Operation Menu***");
+		System.out.print("\n---------------------------");
+        System.out.print("\n### File Operation Menu ###");
         System.out.print("\n---------------------------");
-        System.out.print("\n1.Write details into File \n2.Write details into CSV");
+        System.out.print("\n1.Write details into File \n2.Write details into CSV File \n3.Write details into JSON File");
         System.out.print("\n\nChoose your option for File Operation : ");
         int fileOption = sc.nextInt();
         
@@ -41,6 +43,9 @@ public class FileOperation {
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
+	            break;
+			case 3 : 
+				writeContactToJson();
 	            break;
 			default :
 				System.out.print("\nInvalid option");
@@ -75,6 +80,7 @@ public class FileOperation {
     		System.out.print("Unable to write contact into file" + e.getMessage());
     	}
     }
+	
 	public void writeContactToCsv() throws IOException {
 			
     	//Instantiating the CSVWriter class
@@ -96,5 +102,20 @@ public class FileOperation {
         writer.writeAll(contactList);
         writer.flush();
         System.out.println("Details written into CSV");
+    }
+	 
+    public void writeContactToJson() {
+    	
+	    try {
+	    	// create a writer
+	        Writer writer = new FileWriter("AddrBookFile.json");
+	        // convert map to JSON File
+	        new Gson().toJson(addrBookMap, writer);
+	        // close the writer
+	        writer.close();
+	        System.out.println("Details written into JSON File");
+	    } catch (Exception ex) {
+	        ex.printStackTrace();
+	    }
     }
 }

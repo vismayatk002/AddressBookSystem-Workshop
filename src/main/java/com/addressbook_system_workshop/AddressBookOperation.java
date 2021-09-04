@@ -301,9 +301,9 @@ public class AddressBookOperation {
         System.out.print("\nEnter the Address Book name to sort : ");
         String addrBookName = sc.nextLine();
         
-        System.out.print("\n---------------");
-        System.out.print("\n***Sort Menu***");
-        System.out.print("\n---------------");
+        System.out.print("\n-----------------");
+        System.out.print("\n### Sort Menu ###");
+        System.out.print("\n-----------------");
         System.out.print("\n1.Sort by First Name \n2.Sort by City \n3.Sort by State \n4.Sort by Zip");
         System.out.print("\n\nChoose your option for Sort : ");
         int sortOption = sc.nextInt();
