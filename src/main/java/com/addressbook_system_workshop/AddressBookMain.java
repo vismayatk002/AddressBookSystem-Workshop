@@ -1,6 +1,6 @@
 package com.addressbook_system_workshop;
 
-import java.io.IOException;
+import java.sql.SQLException;
 import java.util.Scanner;
 
 public class AddressBookMain {
@@ -46,8 +46,12 @@ public class AddressBookMain {
 					file.showMenu();
 					break;
 				case 9 : 
-					DatabaseOperations db = new DatabaseOperations();
-					db.showMenu();
+					try {
+						DatabaseOperations db = new DatabaseOperations();
+						db.showMenu();
+					} catch (SQLException e) {
+						e.printStackTrace();
+					}
 					break;
 				default :
 					System.out.print("\nInvalid option");

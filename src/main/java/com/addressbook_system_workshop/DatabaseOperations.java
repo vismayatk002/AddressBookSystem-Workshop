@@ -11,37 +11,28 @@ import com.mysql.jdbc.Statement;
 
 public class DatabaseOperations {
 
-	public void showMenu() {
+	public void showMenu() throws SQLException {
 		
 		Scanner sc= new Scanner(System.in);
 		System.out.print("\n-------------------------------");
         System.out.print("\n### DataBase Operation Menu ###");
         System.out.print("\n-------------------------------");
-        System.out.print("\n1.Retrieve all contacts \n2.Update Contact \n3.Retrieve contacts in a paraticular date periods");
+        System.out.print("\n1.Retrieve all contacts \n2.Update Contact \n3.Retrieve contacts in a  date periods \n4.Retrieve contact's count");
         System.out.print("\n\nChoose your option for DataBase Operation : ");
         int dbOption = sc.nextInt();
         
         switch(dbOption) {
 			case 1 : 
-				try {
-					retrieveAllContacts();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
+				retrieveAllContacts();
 				break;
 			case 2 : 
-				try {
-					updateDataByName();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
+				updateDataByName();
 				break;
 			case 3 : 
-				try {
-					getContactsInDatePeriod();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
+				getContactsInDatePeriod();
+				break;
+			case 4 : 
+				getNoOfContactsByState();
 				break;
 			default :
 				System.out.print("\nInvalid option");
@@ -100,6 +91,25 @@ public class DatabaseOperations {
 			   Statement statement = (Statement) con.createStatement();
 			   ResultSet resultSet = statement.executeQuery(retrieveQuery);
 			   displayResultSet(resultSet);
+		}
+	}
+	
+	public void getNoOfContactsByState() throws SQLException {
+		
+		Scanner sc= new Scanner(System.in);
+		Connection con = getSqlConnection();
+		System.out.print("\nEnter State : ");
+		String state = sc.nextLine();
+		
+		if(con != null) {
+			String retrieveQuery = "SELECT COUNT(*) AS 'count' FROM person JOIN addressBook ON addressBook.addressBookId = person.addressBookId WHERE state = ?";
+			PreparedStatement statement = con.prepareStatement(retrieveQuery);
+			statement.setString(1, state);
+			ResultSet resultSet = statement.executeQuery();
+			while(resultSet.next()) {
+				int contactCount = resultSet.getInt("count");
+				System.out.println("\nNumber of contacts belongs to " + state + " : " + contactCount);
+			}
 		}
 	}
 	
